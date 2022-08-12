@@ -35,6 +35,79 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		370A877528A640DD00CC9044 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				371A412428A537DD00F34F6F /* AppDelegate.swift */,
+				371A412628A537DD00F34F6F /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		370A877628A640E800CC9044 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				371A412D28A537DF00F34F6F /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		370A877728A640F300CC9044 /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				371A412F28A537DF00F34F6F /* LaunchScreen.storyboard */,
+			);
+			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
+		370A877828A6417700CC9044 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				371A413228A537DF00F34F6F /* Info.plist */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		370A877928A6419C00CC9044 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				370A877A28A6423700CC9044 /* Search */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		370A877A28A6423700CC9044 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				370A877B28A6424000CC9044 /* View */,
+				370A877D28A6424D00CC9044 /* ViewModel */,
+				370A877C28A6424900CC9044 /* Model */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		370A877B28A6424000CC9044 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				371A412828A537DD00F34F6F /* SearchViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		370A877C28A6424900CC9044 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		370A877D28A6424D00CC9044 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		371A411828A537DD00F34F6F = {
 			isa = PBXGroup;
 			children = (
@@ -54,12 +127,11 @@
 		371A412328A537DD00F34F6F /* IdusIOSAssignment */ = {
 			isa = PBXGroup;
 			children = (
-				371A412428A537DD00F34F6F /* AppDelegate.swift */,
-				371A412628A537DD00F34F6F /* SceneDelegate.swift */,
-				371A412828A537DD00F34F6F /* SearchViewController.swift */,
-				371A412D28A537DF00F34F6F /* Assets.xcassets */,
-				371A412F28A537DF00F34F6F /* LaunchScreen.storyboard */,
-				371A413228A537DF00F34F6F /* Info.plist */,
+				370A877528A640DD00CC9044 /* AppDelegate */,
+				370A877628A640E800CC9044 /* Resource */,
+				370A877928A6419C00CC9044 /* Scene */,
+				370A877728A640F300CC9044 /* LaunchScreen */,
+				370A877828A6417700CC9044 /* Setting */,
 			);
 			path = IdusIOSAssignment;
 			sourceTree = "<group>";

@@ -18,8 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootViewController = SearchViewController()
         let navigationController = UINavigationController(rootViewController: rootViewController)
         
-        navigationController.isNavigationBarHidden = true
-        
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
