@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  IdusIOSAssignment
+
+  Created by Oh Donggeon on 2022/08/13.
+  
+*/
+
+"searchTitle" = "검색";
+"searchPlaceHolder" = "App ID";
+"confirm" = "확인";
+"notExistSearchData" = "App ID에 해당하는 앱이 없습니다";
