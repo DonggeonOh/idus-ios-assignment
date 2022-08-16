@@ -10,3 +10,5 @@
 "searchPlaceHolder" = "App ID";
 "confirm" = "confirm";
 "notExistSearchData" = "No app corresponding to App ID";
+"showMore" = "Show more";
+"showLess" = "Show less";

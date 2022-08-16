@@ -12,4 +12,6 @@ enum LocalString {
     static let searchPlaceHolder = "searchPlaceHolder".localized
     static let confirm = "confirm".localized
     static let notExistSearchData = "notExistSearchData".localized
+    static let showMore = "showMore".localized
+    static let showLess = "showLess".localized
 }

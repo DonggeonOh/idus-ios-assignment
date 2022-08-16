@@ -14,6 +14,24 @@ struct NetworkManager: NetworkManaging {
         self.service = service
     }
     
+    func request(
+        with url: URL,
+        _ completion: @escaping (Result<Data, Error>) -> Void
+    ) {
+        service.request(with: url) { result in
+            responseDataCompletionHandler(result, completion)
+        }
+    }
+    
+    func request(
+        with urlRequest: URLRequest,
+        _ completion: @escaping (Result<Data, Error>) -> Void
+    ) {
+        service.request(with: urlRequest) { result in
+            responseDataCompletionHandler(result, completion)
+        }
+    }
+    
     func request<T: Decodable>(
         with url: URL,
         decodeTo type: T.Type,
@@ -42,6 +60,18 @@ struct NetworkManager: NetworkManaging {
         switch response {
         case .success(let data):
             completion(parseResponseData(data, parsedBy: type))
+        case .failure(let error):
+            completion(.failure(error))
+        }
+    }
+    
+    private func responseDataCompletionHandler(
+        _ response: Result<Data, NetworkError>,
+        _ completion: (Result<Data, Error>) -> Void
+    ) {
+        switch response {
+        case .success(let data):
+            completion(.success(data))
         case .failure(let error):
             completion(.failure(error))
         }

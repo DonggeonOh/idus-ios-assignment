@@ -8,10 +8,8 @@
 import Foundation
 
 protocol SearchViewModelProviding {
-    var count: Int { get }
-    var searchVMData: Observable<[SearchViewModelData]> { get }
-    var searchErrorData: Observable<SearchErrorViewModelData?> { get }
+    var appInfoModel: Observable<AppInfoModelProviding?> { get }
+    var errorModel: Observable<AppInfoErrorModelProviding?> { get }
     
     func fetch(apiNumber: String, _ completion: (() -> Void)?)
-    func value(at indexPath: IndexPath) -> SearchViewModelData
 }

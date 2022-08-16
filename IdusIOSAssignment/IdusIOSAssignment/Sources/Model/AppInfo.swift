@@ -1,5 +1,5 @@
 //
-//  AppDetail.swift
+//  AppInfo.swift
 //  IdusIOSAssignment
 //
 //  Created by Oh Donggeon on 2022/08/14.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppDetail: Codable {
+struct AppInfo: Codable {
     let screenshotUrls: [String]
     let ipadScreenshotUrls: [String]
     let appletvScreenshotUrls: [String]

@@ -8,6 +8,14 @@
 import Foundation
 
 protocol NetworkManaging {
+    func request(
+        with url: URL,
+        _ completion: @escaping (Result<Data, Error>) -> Void
+    )
+    func request(
+        with urlRequest: URLRequest,
+        _ completion: @escaping (Result<Data, Error>) -> Void
+    )
     func request<T: Decodable>(
         with url: URL,
         decodeTo: T.Type,

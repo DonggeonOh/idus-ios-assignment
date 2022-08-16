@@ -10,17 +10,17 @@ import Foundation
 final class SearchViewModel: SearchViewModelProviding {
     private let networkManager: NetworkManaging
     
-    let searchVMData: Observable<[SearchViewModelData]>
-    let searchErrorData: Observable<SearchErrorViewModelData?>
+    let appInfoModel: Observable<AppInfoModelProviding?>
+    let errorModel: Observable<AppInfoErrorModelProviding?>
     
-    var count: Int {
-        return searchVMData.value.count
-    }
-    
-    init(model: [SearchViewModelData] = [], networkManager: NetworkManaging = NetworkManager()) {
+    init(
+        networkManager: NetworkManaging = NetworkManager(),
+        appInfo: AppInfoModelProviding? = nil,
+        errorModel: AppInfoErrorModelProviding? = nil
+    ) {
         self.networkManager = networkManager
-        self.searchVMData = Observable(model)
-        self.searchErrorData = Observable(nil)
+        self.appInfoModel = Observable(appInfo)
+        self.errorModel = Observable(errorModel)
     }
     
     func fetch(apiNumber: String, _ completion: (() -> Void)? = nil) {
@@ -28,29 +28,27 @@ final class SearchViewModel: SearchViewModelProviding {
             return
         }
         
-        networkManager.request(with: url, decodeTo: AppResponse.self) { [weak self] result in
+        networkManager.request(with: url, decodeTo: AppInfoResponse.self) { [weak self] result in
             switch result {
             case .success(let response):
-                guard response.resultCount != .zero else {
-                    let errorModel = SearchErrorModel(description: LocalString.notExistSearchData)
-                    self?.searchErrorData.setValue(errorModel)
+                guard let appInfo = response.appInfo.first else {
+                    let errorModel = AppInfoErrorModel(description: LocalString.notExistSearchData)
+                    self?.errorModel.setValue(errorModel)
+                    
                     break
                 }
-                self?.searchVMData.setValue(response.results.map { SearchModel(data: $0) })
+                self?.appInfoModel.setValue(AppInfoModel(info: appInfo))
                 
             case.failure (let error):
-                let errorModel = SearchErrorModel(description: LocalString.notExistSearchData)
-                self?.searchErrorData.setValue(errorModel)
+                let errorModel = AppInfoErrorModel(description: LocalString.notExistSearchData)
+                self?.errorModel.setValue(errorModel)
+                
                 print(error.localizedDescription)
             }
             completion?()
         }
     }
     
-    func value(at indexPath: IndexPath) -> SearchViewModelData {
-        return searchVMData.value[indexPath.item]
-    }
-        
     private func createURL(apiNumber: String) -> URL? {
         var urlComponents = URLComponents(string: Const.Network.baseURL)
         urlComponents?.queryItems = [URLQueryItem(name: Const.Network.appIDParameter, value: apiNumber)]

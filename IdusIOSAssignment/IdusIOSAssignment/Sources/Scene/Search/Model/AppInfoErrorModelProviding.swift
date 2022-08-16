@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol SearchErrorViewModelData {
+protocol AppInfoErrorModelProviding {
     var description: String { get }
 }

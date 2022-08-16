@@ -8,8 +8,6 @@
 import UIKit
 
 final class SearchViewController: UIViewController {
-    private var tableView: UITableView?
-    
     private var viewModel: SearchViewModelProviding?
     
     override func viewDidLoad() {
@@ -17,36 +15,7 @@ final class SearchViewController: UIViewController {
         
         configureViewController()
         configureSearchController()
-        configureTableView()
         configureViewModel()
-    }
-    
-    private func configureViewModel() {
-        viewModel = SearchViewModel()
-        
-        viewModel?.searchVMData.bind { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.tableView?.reloadData()
-            }
-        }
-        
-        viewModel?.searchErrorData.bind { [weak self] errorModel in
-            DispatchQueue.main.async {
-                guard let description = errorModel?.description else {
-                    return
-                }
-                self?.presentAlertController(title: description)
-            }
-        }
-    }
-    
-    private func presentAlertController(title: String) {
-        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        let confirmAlertAction = UIAlertAction(title: LocalString.confirm, style: .default, handler: nil)
-        
-        alertController.addAction(confirmAlertAction)
-        
-        present(alertController, animated: true)
     }
     
     private func configureViewController() {
@@ -67,25 +36,36 @@ final class SearchViewController: UIViewController {
         self.navigationItem.searchController?.searchBar.placeholder = LocalString.searchPlaceHolder
     }
     
-    private func configureTableView() {
-        let tableView = UITableView()
+    private func configureViewModel() {
+        viewModel = SearchViewModel()
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tableFooterView = UIView()
-        tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: Const.identifier.searchTableViewCellID)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        viewModel?.appInfoModel.bind { [weak self] appInfo in
+            DispatchQueue.main.async {
+                let appInfoViewController = AppInfoViewController()
+                
+                appInfoViewController.receive(data: appInfo)
+                
+                self?.navigationController?.pushViewController(appInfoViewController, animated: true)
+            }
+        }
         
-        let tableViewConstraints = [
-            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ]
+        viewModel?.errorModel.bind { [weak self] errorModel in
+            DispatchQueue.main.async {
+                guard let description = errorModel?.description else {
+                    return
+                }
+                self?.presentAlertController(title: description)
+            }
+        }
+    }
+    
+    private func presentAlertController(title: String) {
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        let confirmAlertAction = UIAlertAction(title: LocalString.confirm, style: .default, handler: nil)
         
-        self.tableView = tableView
-        self.view.addSubview(tableView)
-        self.view.addConstraints(tableViewConstraints)
+        alertController.addAction(confirmAlertAction)
+        
+        self.present(alertController, animated: true)
     }
 }
 
@@ -116,26 +96,5 @@ extension SearchViewController: UISearchBarDelegate {
         activityIndicator.style = .large
         
         return activityIndicator
-    }
-}
-
-extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.count ?? .zero
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Const.identifier.searchTableViewCellID, for: indexPath)
-        
-        guard let searchCell = cell as? SearchTableViewCell else {
-            return cell
-        }
-        searchCell.update(cellData: self.viewModel?.value(at: indexPath))
-        
-        return searchCell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
 }

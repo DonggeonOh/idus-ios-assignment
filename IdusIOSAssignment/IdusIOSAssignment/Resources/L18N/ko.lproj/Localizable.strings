@@ -10,3 +10,5 @@
 "searchPlaceHolder" = "App ID";
 "confirm" = "확인";
 "notExistSearchData" = "App ID에 해당하는 앱이 없습니다";
+"showMore" = "더보기";
+"showLess" = "접기";
