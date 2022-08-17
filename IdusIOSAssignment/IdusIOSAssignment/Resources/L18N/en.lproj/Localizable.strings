@@ -12,3 +12,6 @@
 "notExistSearchData" = "No app corresponding to App ID";
 "showMore" = "Show more";
 "showLess" = "Show less";
+"developerName" = "developerName";
+"fileSize" = "fileSize";
+"category" = "category";

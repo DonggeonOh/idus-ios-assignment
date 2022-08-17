@@ -13,6 +13,7 @@ final class AppInfoViewController: UIViewController {
     private var appTitleView: AppTitleView?
     private var screenImageView: ScreenImageScrollView?
     private var descriptionView: DescriptionView?
+    private var appInformationStackView: AppInformationStackView?
     
     private var viewModel: AppInfoViewModelProviding?
     
@@ -52,6 +53,7 @@ final class AppInfoViewController: UIViewController {
         configureAppTitleView()
         configureScreenImageView()
         configureDescriptionView()
+        configureAppInformationStackView()
     }
     
     private func configureScrollView() {
@@ -93,9 +95,6 @@ final class AppInfoViewController: UIViewController {
     private func configureAppTitleView() {
         let appTitleView = AppTitleView()
         
-        stackView?.addArrangedSubview(appTitleView)
-        self.appTitleView = appTitleView
-        
         viewModel?.appTitle.bind { model in
             guard let model = model else {
                 return
@@ -105,13 +104,13 @@ final class AppInfoViewController: UIViewController {
             }
         }
         viewModel?.fetchAppTitle(nil)
+        
+        stackView?.addArrangedSubview(appTitleView)
+        self.appTitleView = appTitleView
     }
     
     private func configureScreenImageView() {
         let screenImageView = ScreenImageScrollView()
-        
-        stackView?.addArrangedSubview(screenImageView)
-        self.screenImageView = screenImageView
         
         viewModel?.screenImages.bind { model in
             guard let model = model else {
@@ -122,13 +121,13 @@ final class AppInfoViewController: UIViewController {
             }
         }
         viewModel?.fetchScreenImages(nil)
+        
+        stackView?.addArrangedSubview(screenImageView)
+        self.screenImageView = screenImageView
     }
     
     private func configureDescriptionView() {
         let descriptionView = DescriptionView()
-        
-        stackView?.addArrangedSubview(descriptionView)
-        self.descriptionView = descriptionView
         
         viewModel?.description.bind { model in
             guard let model = model else {
@@ -139,5 +138,27 @@ final class AppInfoViewController: UIViewController {
             }
         }
         viewModel?.fetchDescription(nil)
+        
+        stackView?.addArrangedSubview(descriptionView)
+        self.descriptionView = descriptionView
+    }
+    
+    private func configureAppInformationStackView() {
+        let appInformationStackView = AppInformationStackView()
+        
+        viewModel?.appInformations.bind { model in
+            guard let model = model else {
+                return
+            }
+            DispatchQueue.main.async {
+                appInformationStackView.update(models: model)
+            }
+        }
+        viewModel?.fetchAppInformations(nil)
+        
+        appInformationStackView.axis = .vertical
+        
+        stackView?.addArrangedSubview(appInformationStackView)
+        self.appInformationStackView = appInformationStackView
     }
 }

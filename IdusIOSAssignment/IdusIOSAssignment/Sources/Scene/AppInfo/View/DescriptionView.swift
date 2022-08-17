@@ -26,18 +26,6 @@ final class DescriptionView: UIView {
     
     func update(model: DescriptionViewModelProviding) {
         textView.text = model.description
-        
-        visibleMoreButton()
-    }
-    
-    private func visibleMoreButton() {
-        let textViewHeight = (textView.contentSize.height + textView.textContainerInset.top + textView.textContainerInset.bottom)
-        let lineHeight = textView.font?.lineHeight ?? 1
-        let lineCount = Int(textViewHeight / lineHeight)
-        
-        if lineCount < maximumNumberOfLines {
-            moreButton.isHidden = true
-        }
     }
     
     private func commonInit() {
@@ -53,6 +41,7 @@ final class DescriptionView: UIView {
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
         textView.textContainer.maximumNumberOfLines = maximumNumberOfLines
+        textView.font = .preferredFont(forTextStyle: .body)
         textView.textContainer.lineBreakMode = .byTruncatingTail
     }
     
@@ -87,18 +76,12 @@ final class DescriptionView: UIView {
         self.addConstraints(moreButtonConstraints)
     }
     
-    private func showMoreDescription() {
-        textView.textContainer.maximumNumberOfLines = .zero
-        textView.invalidateIntrinsicContentSize()
-    }
-    
-    private func showLessDescription() {
-        textView.textContainer.maximumNumberOfLines = maximumNumberOfLines
-        textView.invalidateIntrinsicContentSize()
-    }
-    
     @objc private func moreButtonTouched(_ sender: UIButton) {
         sender.isSelected.toggle()
-        sender.isSelected ? showMoreDescription() : showLessDescription()
+        
+        let maximumNumberOfLines = sender.isSelected ? .zero : maximumNumberOfLines
+        
+        textView.textContainer.maximumNumberOfLines = maximumNumberOfLines
+        textView.invalidateIntrinsicContentSize()
     }
 }

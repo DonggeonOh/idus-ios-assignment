@@ -12,3 +12,6 @@
 "notExistSearchData" = "App ID에 해당하는 앱이 없습니다";
 "showMore" = "더보기";
 "showLess" = "접기";
+"developerName" = "개발자";
+"fileSize" = "파일 크기";
+"category" = "카테고리";

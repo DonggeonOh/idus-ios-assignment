@@ -9,11 +9,12 @@ import Foundation
 
 final class AppInfoViewModel: AppInfoViewModelProviding {
     private let manager: NetworkManager
+    private let appInfo: AppInfoModelProviding
     
-    let appInfo: AppInfoModelProviding
     let appTitle: Observable<AppTitleViewModelProviding?>
     let screenImages: Observable<ScreenImageViewModelProviding?>
     let description: Observable<DescriptionViewModelProviding?>
+    let appInformations: Observable<[AppInformationViewModelProviding]?>
     
     private var tempScreenImageData: [Data]
     
@@ -22,13 +23,16 @@ final class AppInfoViewModel: AppInfoViewModelProviding {
         appInfo: AppInfoModelProviding,
         appTitle: AppTitleViewModelProviding? = nil,
         screenImages: ScreenImageViewModelProviding? = nil,
-        description: DescriptionViewModelProviding? = nil
+        description: DescriptionViewModelProviding? = nil,
+        appInformations: [AppInformationViewModelProviding]? = nil
     ) {
         self.manager = manager
         self.appInfo = appInfo
         self.appTitle = Observable(appTitle)
         self.screenImages = Observable(screenImages)
         self.description = Observable(description)
+        self.appInformations = Observable(appInformations)
+        
         self.tempScreenImageData = []
     }
     
@@ -80,5 +84,15 @@ final class AppInfoViewModel: AppInfoViewModelProviding {
     
     func fetchDescription(_ completion: (() -> Void)?) {
         description.setValue(DescriptionModel(description: appInfo.description))
+    }
+    
+    func fetchAppInformations(_ completion: (() -> Void)?) {
+        let fileSize = Byte(bytes: UInt64(appInfo.appFileSize) ?? .zero)
+        let appInformationModels = [
+            AppInformationModel(title: LocalString.developerName, description: appInfo.developerName),
+            AppInformationModel(title: LocalString.fileSize, description: String(fileSize.mb) + "MB"),
+            AppInformationModel(title: LocalString.category, description: appInfo.genres.first ?? .empty)
+        ]
+        appInformations.setValue(appInformationModels)
     }
 }
