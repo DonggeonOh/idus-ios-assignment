@@ -1,5 +1,5 @@
 //
-//  ScreenImageView.swift
+//  ScreenImageScrollView.swift
 //  IdusIOSAssignment
 //
 //  Created by Oh Donggeon on 2022/08/16.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class ScreenImageView: UIScrollView {
+final class ScreenImageScrollView: UIScrollView {
     private let stackView: UIStackView = UIStackView()
     
     private let imageViewCornerRadius: CGFloat = 32

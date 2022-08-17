@@ -11,7 +11,7 @@ final class AppInfoViewController: UIViewController {
     private var scrollView: UIScrollView?
     private var stackView: UIStackView?
     private var appTitleView: AppTitleView?
-    private var screenImageView: ScreenImageView?
+    private var screenImageView: ScreenImageScrollView?
     private var descriptionView: DescriptionView?
     
     private var viewModel: AppInfoViewModelProviding?
@@ -108,7 +108,7 @@ final class AppInfoViewController: UIViewController {
     }
     
     private func configureScreenImageView() {
-        let screenImageView = ScreenImageView()
+        let screenImageView = ScreenImageScrollView()
         
         stackView?.addArrangedSubview(screenImageView)
         self.screenImageView = screenImageView
